@@ -8,15 +8,15 @@ var mainState = {
     preload: function () {
         // This function will be executed at the beginning
         // That's where we load the game's assets
-        game.load.image('logo', 'images/bird_1.png');
+        game.load.image('bird', 'images/bird_1.png');
     },
     create: function () {
         // This function is called after the preload function
         // Here we set up the game, display sprites, etc.
 
-        // Create a game sprite from the logo image positioned
+        // Create a game sprite from the bird image positioned
         // at the center of the game world
-        this.sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
+        this.sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'bird');
         // The position of the sprite should be based on the
         // center of the image (default is top-left)
         this.sprite.anchor.setTo(0.5, 0.5);
