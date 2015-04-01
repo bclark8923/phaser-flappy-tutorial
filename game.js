@@ -8,7 +8,7 @@ var mainState = {
     preload: function () {
         // This function will be executed at the beginning
         // That's where we load the game's assets
-        game.load.image('bird', 'images/bird_1.png');
+        game.load.spritesheet('bird', 'images/bird_sheet.png', 68, 48);
     },
     create: function () {
         // This function is called after the preload function
@@ -20,6 +20,8 @@ var mainState = {
         // The position of the sprite should be based on the
         // center of the image (default is top-left)
         this.sprite.anchor.setTo(0.5, 0.5);
+        this.sprite.animations.add('flap', [0,1,2,1], 10, true);
+        this.sprite.animations.play('flap');
         // Change background color to a gray color
         game.stage.backgroundColor = '#999999';
     },
