@@ -16,6 +16,12 @@ var mainState = {
         // Here we set up the game, display sprites, etc.
         this.floor = game.add.tileSprite(0, game.world.height - 40, game.world.width, game.world.height, 'floor');
         this.floor.tileScale.set(0.5);
+
+        this.obstacles = game.add.group();
+        this.obstacles.add(this.floor);
+        game.physics.enable(this.floor);
+        this.floor.body.immovable = true;
+        this.floor.body.allowGravity = false;
         
         // Create a game sprite from the bird image positioned
         // at the center of the game world
@@ -42,6 +48,10 @@ var mainState = {
             this.sprite.body.velocity.y = -100;
         }
         this.floor.tilePosition.x -= 100;
+        if (game.physics.arcade.collide(this.sprite, this.obstacles)) {
+            console.log('Game over man, game over!');
+            game.paused = true;
+        }
     }
 };
 
