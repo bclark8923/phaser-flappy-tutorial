@@ -22,6 +22,10 @@ var mainState = {
         this.sprite.anchor.setTo(0.5, 0.5);
         this.sprite.animations.add('flap', [0,1,2,1], 10, true);
         this.sprite.animations.play('flap');
+        game.physics.enable(this.sprite);
+        game.physics.arcade.gravity.y = 100;
+        // Stop the bird from falling off the screen, for now
+        this.sprite.body.collideWorldBounds = true;
         // Change background color to a gray color
         game.stage.backgroundColor = '#999999';
     },
