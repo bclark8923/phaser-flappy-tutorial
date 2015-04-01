@@ -28,13 +28,16 @@ var mainState = {
         this.sprite.body.collideWorldBounds = true;
         // Change background color to a gray color
         game.stage.backgroundColor = '#999999';
-    },
+        // keep space from scrolling the page
+        this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+     },
     update: function () {
         // This function is called 60 times per second
         // It contains the game's logic
-        
-        // Rotate the sprite by 1 degrees
-        this.sprite.angle += 1;
+        if (this.spaceKey.justDown) {
+            this.sprite.body.velocity.y = -100;
+        }
     }
 };
 
