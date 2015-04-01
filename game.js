@@ -8,7 +8,7 @@ var mainState = {
     preload: function () {
         // This function will be executed at the beginning
         // That's where we load the game's assets
-        game.load.image('logo', 'missionbit.png');
+        game.load.image('logo', 'images/bird_1.png');
     },
     create: function () {
         // This function is called after the preload function
