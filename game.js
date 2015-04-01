@@ -2,7 +2,7 @@
 /*jslint sloppy:true, browser: true, devel: true, eqeq: true, vars: true, white: true*/
 var game;
 
-function makePipePair(group, offsetX) {
+function makePipePair(group, offsetX, newOffsetX) {
     var top = group.create(0, 0, 'pipe_top');
     var bottom = group.create(0, 0, 'pipe_bottom');
     top.anchor.set(0, 1);
@@ -26,6 +26,14 @@ function makePipePair(group, offsetX) {
     positionPipes(top, bottom);
     top.x += offsetX;
     bottom.x += offsetX;
+    top.checkWorldBounds = true;
+    top.events.onOutOfBounds.add(function () {
+        if (top.x < 0) {
+            positionPipes(top, bottom);
+            top.x += newOffsetX - top.width / 2;
+            bottom.x += newOffsetX - bottom.width / 2;
+        }
+    });
 }
 
 var mainState = {
@@ -60,7 +68,7 @@ var mainState = {
         this.sprite.animations.add('flap', [0,1,2,1], 10, true);
         this.sprite.animations.play('flap');
         game.physics.enable(this.sprite);
-        game.physics.arcade.gravity.y = 100;
+        game.physics.arcade.gravity.y = 250;
         // Stop the bird from falling off the screen, for now
         this.sprite.body.collideWorldBounds = true;
         // Change background color to a gray color
@@ -69,17 +77,17 @@ var mainState = {
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
         var pipeSpacing = 400;
-        var numPipes = 10;
+        var numPipes = 4;
         var i;
         for (i = 0; i < numPipes; i += 1) {
-            makePipePair(this.obstacles, i * pipeSpacing);
+             makePipePair(this.obstacles, i * pipeSpacing, pipeSpacing * numPipes - game.world.width);
         }
     },
     update: function () {
         // This function is called 60 times per second
         // It contains the game's logic
         if (this.spaceKey.justDown) {
-            this.sprite.body.velocity.y = -100;
+            this.sprite.body.velocity.y = -150;
         }
         this.floor.tilePosition.x -= 15;
         if (game.physics.arcade.collide(this.sprite, this.obstacles)) {
