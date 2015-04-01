@@ -14,7 +14,7 @@ function makePipePair(group, offsetX) {
         pipe.body.velocity.x = -200;
     }
     function positionPipes(top, bottom) {
-        var center = 250;
+        var center = game.rnd.integerInRange(50, game.world.height - 50);
         var left = game.world.width;
         top.x = left;
         bottom.x = left;
@@ -68,8 +68,13 @@ var mainState = {
         // keep space from scrolling the page
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
-        makePipePair(this.obstacles, 0);
-     },
+        var pipeSpacing = 400;
+        var numPipes = 10;
+        var i;
+        for (i = 0; i < numPipes; i += 1) {
+            makePipePair(this.obstacles, i * pipeSpacing);
+        }
+    },
     update: function () {
         // This function is called 60 times per second
         // It contains the game's logic
