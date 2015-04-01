@@ -2,6 +2,32 @@
 /*jslint sloppy:true, browser: true, devel: true, eqeq: true, vars: true, white: true*/
 var game;
 
+function makePipePair(group, offsetX) {
+    var top = group.create(0, 0, 'pipe_top');
+    var bottom = group.create(0, 0, 'pipe_bottom');
+    top.anchor.set(0, 1);
+    var spacing = 100;
+    function addPhysics(pipe) {
+        game.physics.enable(pipe);
+        pipe.body.immovable = true;
+        pipe.body.allowGravity = false;
+        pipe.body.velocity.x = -200;
+    }
+    function positionPipes(top, bottom) {
+        var center = 250;
+        var left = game.world.width;
+        top.x = left;
+        bottom.x = left;
+        top.y = center - spacing;
+        bottom.y = center + spacing;
+    }
+    addPhysics(top);
+    addPhysics(bottom);
+    positionPipes(top, bottom);
+    top.x += offsetX;
+    bottom.x += offsetX;
+}
+
 var mainState = {
     // Here we add all the functions we need for our state
     // For this project we will just have 3 functions
@@ -10,6 +36,8 @@ var mainState = {
         // That's where we load the game's assets
         game.load.spritesheet('bird', 'images/bird_sheet.png', 68, 48);
         game.load.image('floor', 'images/floor.png');
+        game.load.image('pipe_top', 'images/pipe_top.png');
+        game.load.image('pipe_bottom', 'images/pipe_bottom.png');
     },
     create: function () {
         // This function is called after the preload function
@@ -40,6 +68,7 @@ var mainState = {
         // keep space from scrolling the page
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+        makePipePair(this.obstacles, 0);
      },
     update: function () {
         // This function is called 60 times per second
@@ -47,7 +76,7 @@ var mainState = {
         if (this.spaceKey.justDown) {
             this.sprite.body.velocity.y = -100;
         }
-        this.floor.tilePosition.x -= 100;
+        this.floor.tilePosition.x -= 15;
         if (game.physics.arcade.collide(this.sprite, this.obstacles)) {
             console.log('Game over man, game over!');
             game.paused = true;
