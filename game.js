@@ -9,11 +9,14 @@ var mainState = {
         // This function will be executed at the beginning
         // That's where we load the game's assets
         game.load.spritesheet('bird', 'images/bird_sheet.png', 68, 48);
+        game.load.image('floor', 'images/floor.png');
     },
     create: function () {
         // This function is called after the preload function
         // Here we set up the game, display sprites, etc.
-
+        this.floor = game.add.tileSprite(0, game.world.height - 40, game.world.width, game.world.height, 'floor');
+        this.floor.tileScale.set(0.5);
+        
         // Create a game sprite from the bird image positioned
         // at the center of the game world
         this.sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'bird');
@@ -38,6 +41,7 @@ var mainState = {
         if (this.spaceKey.justDown) {
             this.sprite.body.velocity.y = -100;
         }
+        this.floor.tilePosition.x -= 100;
     }
 };
 
